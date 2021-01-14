@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = express();
 
-connectToMongo(process.env.MONGO_LOCAL);
+connectToMongo(process.env.MONGO_URI);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
