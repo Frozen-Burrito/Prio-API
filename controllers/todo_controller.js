@@ -13,10 +13,53 @@ const get_todos = async (req, res) => {
     return res.status(500).json({
       success: false,
       errmsg: error
+    });
+  }
+}
+
+const add_todo = async (req, res) => {
+  try {
+    const newTodo = await Todo.create(req.body);
+
+    return res.status(201).json({
+      success: true,
+      data: newTodo
     })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      errmsg: error
+    });
+  }
+}
+
+const delete_todo = async (req, res) => {
+  try {
+    const todo = await Todo.findById(req.params.id);
+
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        errmsg: 'There are no todos with this _id'
+      });
+    }
+
+    await todo.remove();
+
+    return res.status(201).json({
+      success: true,
+      data: 'Todo deleted'
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      errmsg: error
+    });
   }
 }
 
 module.exports = {
-  get_todos
+  get_todos,
+  add_todo,
+  delete_todo
 }
